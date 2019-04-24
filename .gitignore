@@ -22,6 +22,9 @@ ExportedObj/
 *.svd
 *.pdb
 *.opendb
+*.sln
+*.collabignore
+*.swp
 
 # Unity3D generated meta files
 *.pidb.meta
