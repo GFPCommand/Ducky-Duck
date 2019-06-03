@@ -76,6 +76,7 @@ public class lvlsPlayer : MonoBehaviour
 
     void Update()
     {
+
         if (count > PlayerPrefs.GetInt("score"))
         {
             PlayerPrefs.GetInt("score");
@@ -425,7 +426,7 @@ public class lvlsPlayer : MonoBehaviour
         yield return new WaitForSeconds(3f);
         if (lose)
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(4);
         }
     }
 
@@ -445,7 +446,7 @@ public class lvlsPlayer : MonoBehaviour
         exp4.SetActive(false);
         if (lose)
         {
-            SceneManager.LoadScene(0);
+            SceneManager.LoadScene(4);
         }
     }
 

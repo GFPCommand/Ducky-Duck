@@ -9,7 +9,7 @@ public class lvlsMovePlayer : MonoBehaviour
 
     void OnMouseDrag()
     {
-        if (!Player.lose)
+        if (!lvlsPlayer.lose)
         {
             Vector3 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
             mousePos.x = mousePos.x > 2.5 ? 2.5f : mousePos.x;
