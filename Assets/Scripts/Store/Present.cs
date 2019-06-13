@@ -2,13 +2,13 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class buyPresent : MonoBehaviour
+public class Present : MonoBehaviour
 {
 
-    public int Present;
+    public Ads ads;
 
-    public int help;
-    public int help2;
+    public int present;
+    public int help, help2;
 
     public AudioClip click;
 
@@ -19,8 +19,7 @@ public class buyPresent : MonoBehaviour
 
     private void OnMouseDown()
     {
-        help = PlayerPrefs.GetInt("mainScore");
-        Present = PlayerPrefs.GetInt("Present");
+        present = PlayerPrefs.GetInt("Present");
 
         transform.localScale += new Vector3(0.1f, 0.1f, 0.1f);
 
@@ -34,25 +33,20 @@ public class buyPresent : MonoBehaviour
     {
         transform.localScale -= new Vector3(0.1f, 0.1f, 0.1f);
 
-        coinText.text = "" + PlayerPrefs.GetInt("mainScore");
         countPresent.text = "" + PlayerPrefs.GetInt("Present");
     }
 
-    private void OnMouseUpAsButton()
+/*private void OnMouseUpAsButton()
+{
+    if (Advertisement.IsReady())
     {
-        if (PlayerPrefs.GetInt("mainScore") >= 50)
-        {
-            Present++;
-            help2 = help - 50;
-            PlayerPrefs.SetInt("Present", Present);
-            PlayerPrefs.SetInt("mainScore", help2);
-        } else
-        {
-            StartCoroutine(error());
-        }
+        Advertisement.Show();
+        //Present++;
+        //PlayerPrefs.SetInt("Present", Present);
     }
+}*/
 
-    IEnumerator Click()
+IEnumerator Click()
     {
         AudioSource.PlayClipAtPoint(click, transform.position);
         yield return new WaitForSeconds(0.5f);

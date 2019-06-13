@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public class lvlsPlayer : MonoBehaviour
 {
     public static int count;
-    private int help, help2, ShieldHelp, ShieldHelp2, doubleCoinHelp, doubleCoinHelp2, lvls, countScore, countLVLs;
+    private int help, help2, ShieldHelp, ShieldHelp2, doubleCoinHelp, doubleCoinHelp2, lvls, countLVLs;
 
     public GameObject music;
 
@@ -70,8 +70,6 @@ public class lvlsPlayer : MonoBehaviour
         ShieldHelp = PlayerPrefs.GetInt("Shield");
         doubleCoinHelp = PlayerPrefs.GetInt("doubleCoin");
         help = PlayerPrefs.GetInt("mainScore");
-
-        countScore = doubleCoinHelp >= 1 ? -2 : -1;
     }
 
     void Update()
@@ -347,13 +345,6 @@ public class lvlsPlayer : MonoBehaviour
 
         if (other.gameObject.tag == "Coin" && PlayerPrefs.GetInt("doubleCoin") < 1)
         {
-            count++;
-            countScore++;
-            SetCount();
-
-            if (count > (countScore + 1))
-                count = 0;
-
             help2 = ++help;
 
             PlayerPrefs.SetInt("mainScore", help2);
@@ -366,13 +357,6 @@ public class lvlsPlayer : MonoBehaviour
         }
         else if (other.gameObject.tag == "Coin" && PlayerPrefs.GetInt("doubleCoin") >= 1)
         {
-            count += 2;
-            countScore += 2;
-            SetCount();
-
-            if (count > (countScore + 2))
-                count = 0;
-
             help2 = ++help;
             help2 = ++help;
 

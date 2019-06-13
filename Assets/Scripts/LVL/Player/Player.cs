@@ -9,29 +9,21 @@ using UnityEngine.SceneManagement;
 public class Player : MonoBehaviour
 {
     public static int count;
-    private int help, help2, ShieldHelp, ShieldHelp2, doubleCoinHelp, doubleCoinHelp2, countScore;
+    private int help, help2, ShieldHelp, ShieldHelp2, doubleCoinHelp, doubleCoinHelp2;
 
     public GameObject music;
 
-    public Text countText;
-    public Text highScoreText;
-    public Text noyesText;
+    public Text countText, highScoreText, NoYesText;
 
-    public GameObject restart;
-    public GameObject pause;
-    public GameObject exit;
+    public GameObject restart, pause, exit;
 
     public GameObject exp1, exp2, exp3, exp4;
 
-    public AudioClip explose;
-    public AudioClip getCoin;
+    public AudioClip explose, getCoin;
 
-    public GameObject yes;
-    public GameObject no;
-    public GameObject yesORno;
+    public GameObject yes, no, YesOrNo;
 
-    public GameObject playerShield;
-    public GameObject player;
+    public GameObject playerShield, player;
 
     public Sprite[] sprites = new Sprite[2];
 
@@ -50,6 +42,8 @@ public class Player : MonoBehaviour
     void Start()
     {
         count = 0;
+
+        
 
         if (PlayerPrefs.GetInt("Shield") >= 1)
         {
@@ -71,13 +65,10 @@ public class Player : MonoBehaviour
             music.SetActive(false);
         }
 
-        SetCount();
         HighScore();
         ShieldHelp = PlayerPrefs.GetInt("Shield");
         doubleCoinHelp = PlayerPrefs.GetInt("doubleCoin");
         help = PlayerPrefs.GetInt("mainScore");
-
-        countScore = doubleCoinHelp >= 1 ? -2 : -1;
     }
 
     void Update()
@@ -87,6 +78,7 @@ public class Player : MonoBehaviour
             PlayerPrefs.SetInt("score", count);
         }
         HighScore();
+        SetCount();
     }
 
     private void FixedUpdate()
@@ -96,115 +88,106 @@ public class Player : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.tag == "Bomb")
+        
+        if (other.gameObject.tag == "Bomb" && PlayerPrefs.GetInt("ExtraLife") < 1 && ShieldHelp < 1)
         {
-            if (PlayerPrefs.GetInt("Extralife") < 1 && PlayerPrefs.GetInt("Shield") < 1)
+            lose = true;
+
+            Destroy(other.gameObject);
+
+            if (PlayerPrefs.GetInt("sound") == 1)
             {
-                lose = true;
-
-                Destroy(other.gameObject);
-
-                if (PlayerPrefs.GetInt("sound") == 1)
-                {
-                    StartCoroutine(MakeExplosionSound());
-                    StartCoroutine(Explose());
-                }
-                else if (PlayerPrefs.GetInt("sound") == 0)
-                {
-                    StartCoroutine(Explose());
-                }
-
-                if (doubleCoinHelp >= 1)
-                {
-                    doubleCoinHelp2 = --doubleCoinHelp;
-                    PlayerPrefs.SetInt("doubleCoin", doubleCoinHelp2);
-                }
-            } else if (PlayerPrefs.GetInt("ExtraLife") >= 1 && PlayerPrefs.GetInt("Shield") >= 1)
+                StartCoroutine(MakeExplosionSound());
+                StartCoroutine(Explose());
+            }
+            else if (PlayerPrefs.GetInt("sound") == 0)
             {
-                Destroy(other.gameObject);
+                StartCoroutine(Explose());
+            }
 
-                if (ShieldHelp >= 1)
-                {
-                    ShieldHelp2 = --ShieldHelp;
-
-                    PlayerPrefs.SetInt("Shield", ShieldHelp2);
-                }
-
-                if (ShieldHelp < 1)
-                {
-                    pc.GetComponent<PolygonCollider2D>().enabled = true;
-                    cc.GetComponent<CircleCollider2D>().enabled = false;
-
-                    playerShield.SetActive(false);
-                }
-
-                if (PlayerPrefs.GetInt("sound") == 1)
-                {
-                    StartCoroutine(MakeExplosionSound());
-                }
-
-                if (doubleCoinHelp >= 1)
-                {
-                    doubleCoinHelp2 = --doubleCoinHelp;
-                    PlayerPrefs.SetInt("doubleCoin", doubleCoinHelp2);
-                }
-
-            } else if (PlayerPrefs.GetInt("ExtraLife") >= 1 && PlayerPrefs.GetInt("Shield") < 1)
+            if (doubleCoinHelp >= 1)
             {
-                Destroy(other.gameObject);
-                yesORno.SetActive(true);
-                yes.SetActive(true);
-                no.SetActive(true);
-                pause.SetActive(false);
-                Time.timeScale = 0;
-                noyesText.text = "You have " + PlayerPrefs.GetInt("ExtraLife") + " lifes. Continue?";
-                if (PlayerPrefs.GetInt("sound") == 1)
-                {
-                    StartCoroutine(MakeExplosionSound());
-                }
+                doubleCoinHelp2 = --doubleCoinHelp;
+                PlayerPrefs.SetInt("doubleCoin", doubleCoinHelp2);
+            }
+        } else if (other.gameObject.tag == "Bomb" && PlayerPrefs.GetInt("ExtraLife") >= 1 && ShieldHelp >= 1)
+        {
+            Destroy(other.gameObject);
 
-                if (doubleCoinHelp >= 1)
-                {
-                    doubleCoinHelp2 = --doubleCoinHelp;
-                    PlayerPrefs.SetInt("doubleCoin", doubleCoinHelp2);
-                }
-            } else if (PlayerPrefs.GetInt("ExtraLife") < 1 && PlayerPrefs.GetInt("Shield") >= 1)
+            if (ShieldHelp >= 1)
             {
-                Destroy(other.gameObject);
                 ShieldHelp2 = --ShieldHelp;
 
-                if (ShieldHelp2 < 1)
-                {
-                    playerShield.SetActive(false);
-
-                    pc.GetComponent<PolygonCollider2D>().enabled = true;
-                    cc.GetComponent<CircleCollider2D>().enabled = false;
-                }
-
                 PlayerPrefs.SetInt("Shield", ShieldHelp2);
+            }
 
-                if (PlayerPrefs.GetInt("sound") == 1)
-                {
-                    StartCoroutine(MakeExplosionSound());
-                }
+            if (ShieldHelp < 1)
+            {
+                pc.GetComponent<PolygonCollider2D>().enabled = true;
+                cc.GetComponent<CircleCollider2D>().enabled = false;
 
-                if (doubleCoinHelp >= 1)
-                {
-                    doubleCoinHelp2 = --doubleCoinHelp;
-                    PlayerPrefs.SetInt("doubleCoin", doubleCoinHelp2);
-                }
+                playerShield.SetActive(false);
+            }
+
+            if (PlayerPrefs.GetInt("sound") == 1)
+            {
+                StartCoroutine(MakeExplosionSound());
+            }
+
+            if (doubleCoinHelp >= 1)
+            {
+                doubleCoinHelp2 = --doubleCoinHelp;
+                PlayerPrefs.SetInt("doubleCoin", doubleCoinHelp2);
+            }
+        } else if (other.gameObject.tag == "Bomb" && PlayerPrefs.GetInt("ExtraLife") >= 1 && ShieldHelp < 1)
+        {
+            Destroy(other.gameObject);
+            YesOrNo.SetActive(true);
+            yes.SetActive(true);
+            no.SetActive(true);
+            pause.SetActive(false);
+            Time.timeScale = 0;
+            NoYesText.text = "You have " + PlayerPrefs.GetInt("ExtraLife") + " lifes. Continue?";
+            if (PlayerPrefs.GetInt("sound") == 1)
+            {
+                StartCoroutine(MakeExplosionSound());
+            }
+
+            if (doubleCoinHelp >= 1)
+            {
+                doubleCoinHelp2 = --doubleCoinHelp;
+                PlayerPrefs.SetInt("doubleCoin", doubleCoinHelp2);
+            }
+        } else if (other.gameObject.tag == "Bomb" && PlayerPrefs.GetInt("ExtraLife") < 1 && ShieldHelp >= 1)
+        {
+            Destroy(other.gameObject);
+            ShieldHelp2 = --ShieldHelp;
+
+            if (ShieldHelp2 < 1)
+            {
+                playerShield.SetActive(false);
+
+                pc.GetComponent<PolygonCollider2D>().enabled = true;
+                cc.GetComponent<CircleCollider2D>().enabled = false;
+            }
+
+            PlayerPrefs.SetInt("Shield", ShieldHelp2);
+
+            if (PlayerPrefs.GetInt("sound") == 1)
+            {
+                StartCoroutine(MakeExplosionSound());
+            }
+
+            if (doubleCoinHelp >= 1)
+            {
+                doubleCoinHelp2 = --doubleCoinHelp;
+                PlayerPrefs.SetInt("doubleCoin", doubleCoinHelp2);
             }
         }
 
         if (other.gameObject.tag == "Coin" && doubleCoinHelp < 1)
         {
             count++;
-            countScore++;
-            SetCount();
-
-            if (count > (countScore + 1))
-                count = 0;
-
             help2 = ++help;
 
             PlayerPrefs.SetInt("mainScore", help2);
@@ -218,12 +201,6 @@ public class Player : MonoBehaviour
         else if (other.gameObject.tag == "Coin" && doubleCoinHelp >= 1)
         {
             count += 2;
-            countScore += 2;
-            SetCount();
-
-            if (count > (countScore + 2))
-                count = 0;
-
             help2 = ++help;
             help2 = ++help;
 
@@ -253,7 +230,7 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(3f);
         if (lose)
         {
-            SceneManager.LoadScene(2);
+            SceneManager.LoadScene(3);
         }
     }
 
