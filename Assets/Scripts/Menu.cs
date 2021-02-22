@@ -11,7 +11,7 @@ public class Menu : MonoBehaviour
 
     public static bool isLoad = false;
 
-    public Text firstText, secondText, thirdText, fourthText, coinsText, firstNum, secondNum, MainText, BuyOrGetButtonText;
+    public Text firstText, secondText, thirdText, fourthText, coinsText, firstNum, secondNum, MainText, BuyOrGetButtonText, firstTextDescription, secondTextDescription;
     public Sprite[] ButtonsSprites;
     public Slider loading;
     public Sprite[] LevelsButtonsImages, productSprites;
@@ -28,7 +28,7 @@ public class Menu : MonoBehaviour
 
         if (Advertisement.isSupported)
         { 
-            Advertisement.Initialize("3861549", false);
+            Advertisement.Initialize("3861549", true);
             Debug.Log("Initializing...");
         }
         else Debug.Log("Platform is not supported");
@@ -104,6 +104,9 @@ public class Menu : MonoBehaviour
                     secondNum.text = "x" + PlayerPrefs.GetInt("Shield").ToString();
 
                     BuyOrGetButtonText.text = "Buy";
+
+                    firstTextDescription.text = "Extra Life\nGive you chance in the game\n50 coins";
+                    secondTextDescription.text = "Shield\nTakes all the punches\n75 coins";
                 } else
                 {
                     products[0].GetComponent<Image>().sprite = productSprites[2];
@@ -113,6 +116,9 @@ public class Menu : MonoBehaviour
                     secondNum.text = "x" + PlayerPrefs.GetInt("Present").ToString();
 
                     BuyOrGetButtonText.text = "Get";
+
+                    firstTextDescription.text = "Double coin\nDuplicates your coins\n100 coins";
+                    secondTextDescription.text = "Present\nGive present\nClick on present for opening";
                 }
 
                 coinsText.text = PlayerPrefs.GetInt("Coins").ToString();
@@ -162,12 +168,12 @@ public class Menu : MonoBehaviour
                 checkCondition = 2;
                 break;
             case 1:
+                SetImages();
+
                 LevelsMenu.SetActive(true);
 
                 FirstButton.SetActive(false);
-                SecondButton.SetActive(false);
-
-                SetImages();
+                SecondButton.SetActive(false);                
 
                 MainText.text = "Select level";
                 break;
@@ -278,7 +284,7 @@ public class Menu : MonoBehaviour
     {
         int passLevel = PlayerPrefs.GetInt("passLVL");
 
-        for (int i = 0; i < passLevel - 1; i++)
+        for (int i = 0; i < passLevel; i++)
         {
             LevelsButtons[i].GetComponent<Image>().sprite = LevelsButtonsImages[i];
         }
@@ -326,6 +332,7 @@ public class Menu : MonoBehaviour
         PlayerPrefs.SetString("NoAds", isNoAds.ToString());
 
         PlayerPrefs.SetInt("BirdActive", 1);
+        PlayerPrefs.SetInt("passLVL", 0);
 
         firstText.text = "Sound: On";
         FirstButton.GetComponent<Image>().sprite = ButtonsSprites[0];

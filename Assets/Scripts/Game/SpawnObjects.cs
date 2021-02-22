@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
+using System.Collections;
 
 public class SpawnObjects : MonoBehaviour
 {
     public GameObject coin, bomb;
 
-    private float SpawnBombSpeed = 1f, SpawnCoinSpeed = 1f;
-    float delta;
+    private float SpawnBombSpeed = 1f, SpawnCoinSpeed = 1f, delta;
 
     private Vector2 RandBombX, RandCoinX, randVector;
 
@@ -14,105 +13,111 @@ public class SpawnObjects : MonoBehaviour
     {
         if (!LoadLevels.isLevels)
         {
-            StartCoroutine(SpawnBombs());
-            StartCoroutine(SpawnMoney());
-        } else
-        {
-            StartCoroutine(SpawnBombsLVL());
-            StartCoroutine(SpawnMoneyLVL());
-        }
-    }
-
-    private void Update()
-    {
-        if (RandBombX.x > 0 && RandCoinX.x > 0)
-        {
-            delta = Mathf.Abs(RandBombX.x - RandCoinX.x);
-        }
-        else if (RandBombX.x > 0 && RandCoinX.x < 0)
-        {
-            delta = Mathf.Abs(RandBombX.x + RandCoinX.x);
-        }
-        else if (RandBombX.x < 0 && RandCoinX.x > 0)
-        {
-            delta = Mathf.Abs(RandBombX.x + RandCoinX.x);
+            StartCoroutine(SpawnForArcade());
         }
         else
         {
-            delta = Mathf.Abs(RandBombX.x - RandCoinX.x);
+            StartCoroutine(SpawnForLevels());
         }
     }
 
-    IEnumerator SpawnBombs()
+    IEnumerator SpawnForArcade()
     {
         while (!Player.lose && !Pause.isPause)
         {
             RandBombX = new Vector2(Random.Range(-2.3f, 2.3f), 5.9f);
 
-            if (RandBombX == RandCoinX || delta <= 0.25f)
+            RandCoinX = new Vector2(Random.Range(-2.3f, 2.3f), 5.9f);
+
+            if (RandBombX.x > 0 && RandCoinX.x > 0)
             {
-                randVector = new Vector2(Random.Range(-2.3f, 2.3f), 5.9f);
-                Instantiate(bomb, randVector, Quaternion.identity);
-            } else
-            {
-                Instantiate(bomb, RandBombX, Quaternion.identity);
+                delta = Mathf.Abs(RandBombX.x - RandCoinX.x);
             }
-            
-            if (!LoadLevels.isLevels) SpawnBombSpeed -= 0.0005f;
+            else if (RandBombX.x > 0 && RandCoinX.x < 0)
+            {
+                delta = Mathf.Abs(RandBombX.x + RandCoinX.x);
+            }
+            else if (RandBombX.x < 0 && RandCoinX.x > 0)
+            {
+                delta = Mathf.Abs(RandBombX.x + RandCoinX.x);
+            }
             else
             {
-                if (PlayerPrefs.GetInt("selLVL") >= 10)
-                    SpawnBombSpeed -= (0.0001f * PlayerPrefs.GetInt("selLVL"));
-                else SpawnBombSpeed -= (0.001f * PlayerPrefs.GetInt("selLVL"));
+                delta = Mathf.Abs(RandBombX.x - RandCoinX.x);
             }
+
+            if (RandBombX == RandCoinX || delta <= 0.3f)
+            {
+                randVector = new Vector2(Random.Range(-2.3f, 2.3f), 5.9f);
+
+                Instantiate(bomb, randVector, Quaternion.identity);
+
+                if (delta <= 0.3f)
+                {
+                    randVector = new Vector2(Random.Range(-2.3f, 2.3f), 5.9f);
+
+                    Instantiate(coin, randVector, Quaternion.identity);
+                }
+            }
+            else
+            {
+                Instantiate(bomb, RandBombX, Quaternion.identity);
+
+                Instantiate(coin, RandCoinX, Quaternion.identity);
+            }
+
             yield return new WaitForSeconds(SpawnBombSpeed);
         }
     }
 
-    IEnumerator SpawnBombsLVL()
+    IEnumerator SpawnForLevels()
     {
         while (!PlayerLVL.lose && !Pause.isPause)
         {
             RandBombX = new Vector2(Random.Range(-2.3f, 2.3f), 5.9f);
 
-            if (RandBombX == RandCoinX || delta <= 0.25f)
+            RandCoinX = new Vector2(Random.Range(-2.3f, 2.3f), 5.9f);
+
+            if (RandBombX.x > 0 && RandCoinX.x > 0)
+            {
+                delta = Mathf.Abs(RandBombX.x - RandCoinX.x);
+            }
+            else if (RandBombX.x > 0 && RandCoinX.x < 0)
+            {
+                delta = Mathf.Abs(RandBombX.x + RandCoinX.x);
+            }
+            else if (RandBombX.x < 0 && RandCoinX.x > 0)
+            {
+                delta = Mathf.Abs(RandBombX.x + RandCoinX.x);
+            }
+            else
+            {
+                delta = Mathf.Abs(RandBombX.x - RandCoinX.x);
+            }
+
+            if (RandBombX == RandCoinX || delta <= 0.3f)
             {
                 randVector = new Vector2(Random.Range(-2.3f, 2.3f), 5.9f);
+
                 Instantiate(bomb, randVector, Quaternion.identity);
+
+                if (delta <= 0.3f)
+                {
+                    randVector = new Vector2(Random.Range(-2.3f, 2.3f), 5.9f);
+
+                    Instantiate(coin, randVector, Quaternion.identity);
+                }
             }
             else
             {
                 Instantiate(bomb, RandBombX, Quaternion.identity);
+
+                Instantiate(coin, RandCoinX, Quaternion.identity);
             }
 
-            if (PlayerPrefs.GetInt("selLVL") >= 10)
-                SpawnBombSpeed -= (0.0001f * PlayerPrefs.GetInt("selLVL"));
-            else SpawnBombSpeed -= (0.001f * PlayerPrefs.GetInt("selLVL"));
+            
+
             yield return new WaitForSeconds(SpawnBombSpeed);
-        }
-    }
-
-    IEnumerator SpawnMoney()
-    {
-        while (!Player.lose || !PlayerLVL.lose && !Pause.isPause)
-        {
-            RandCoinX = new Vector2(Random.Range(-2.3f, 2.3f), 5.9f);
-
-            Instantiate(coin, RandCoinX, Quaternion.identity);
-            SpawnCoinSpeed -= 0.0001f;
-            yield return new WaitForSeconds(SpawnCoinSpeed);
-        }
-    }
-
-    IEnumerator SpawnMoneyLVL()
-    {
-        while (!PlayerLVL.lose && !Pause.isPause)
-        {
-            RandCoinX = new Vector2(Random.Range(-2.3f, 2.3f), 5.9f);
-
-            Instantiate(coin, RandCoinX, Quaternion.identity);
-            SpawnCoinSpeed -= 0.0001f;
-            yield return new WaitForSeconds(SpawnCoinSpeed);
         }
     }
 }

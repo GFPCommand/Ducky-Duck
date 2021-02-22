@@ -9,7 +9,7 @@ public class SkinsShop : MonoBehaviour
     public Button[] ButtonsForBuyingBirds = new Button[4];
     public Text[] TextOnButtons = new Text[4];
     public GameObject IAPStore, noAds, SkinsShopObj, Plus;
-    public Text mainText;
+    public Text mainText, countCoins;
     public Button GetCoinsButton;
 
     public void FirstBirdBuyButton()
@@ -34,6 +34,8 @@ public class SkinsShop : MonoBehaviour
             PlayerPrefs.SetInt("Coins", coins -= 150);
 
             TextOnButtons[1].text = "Use";
+
+            countCoins.text = PlayerPrefs.GetInt("Coins").ToString();
 
             birdsBuy = PlayerPrefs.GetString("BirdsBuy");
 
@@ -65,6 +67,8 @@ public class SkinsShop : MonoBehaviour
 
             TextOnButtons[2].text = "Use";
 
+            countCoins.text = PlayerPrefs.GetInt("Coins").ToString();
+
             birdsBuy = PlayerPrefs.GetString("BirdsBuy");
 
             PlayerPrefs.SetString("BirdsBuy", birdsBuy += "3");
@@ -94,6 +98,8 @@ public class SkinsShop : MonoBehaviour
             PlayerPrefs.SetInt("Coins", coins -= 250);
 
             TextOnButtons[3].text = "Use";
+
+            countCoins.text = PlayerPrefs.GetInt("Coins").ToString();
 
             birdsBuy = PlayerPrefs.GetString("BirdsBuy");
 

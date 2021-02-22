@@ -2728,12 +2728,15 @@ MonoBehaviour:
   secondNum: {fileID: 970166368}
   MainText: {fileID: 1997966503}
   BuyOrGetButtonText: {fileID: 329861995}
+  firstTextDescription: {fileID: 1666889248}
+  secondTextDescription: {fileID: 244029065}
   ButtonsSprites:
   - {fileID: 21300000, guid: de66b7c1fe2826c47af8b6b46101a4c3, type: 3}
   - {fileID: 21300000, guid: c935021167d749f40863c862cbc89ddb, type: 3}
   - {fileID: 21300000, guid: 6b0f67aec9927c7438abd4047d87ef82, type: 3}
   loading: {fileID: 1663857569}
   LevelsButtonsImages:
+  - {fileID: 21300000, guid: b0c0aa67c909cff4facd6bd50e2f02a6, type: 3}
   - {fileID: 21300000, guid: a9825f6d70c713f4d9a11c490f38f13d, type: 3}
   - {fileID: 21300000, guid: 958a66d6e6d330740860f904cfad07ca, type: 3}
   - {fileID: 21300000, guid: 0c7cb5a610e4ab54a91d2f8b329d4165, type: 3}
@@ -2754,6 +2757,7 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 6f05876a0c06bf94b834370ccb90143a, type: 3}
   - {fileID: 21300000, guid: caa7e537cbb15064c90dee3fbd6ef667, type: 3}
   LevelsButtons:
+  - {fileID: 410942237}
   - {fileID: 867576333}
   - {fileID: 1736372307}
   - {fileID: 2025671303}
@@ -2945,6 +2949,7 @@ MonoBehaviour:
   SkinsShopObj: {fileID: 1171952601}
   Plus: {fileID: 1622245798}
   mainText: {fileID: 1997966503}
+  countCoins: {fileID: 141419102}
   GetCoinsButton: {fileID: 1718473675}
 --- !u!82 &419339676
 AudioSource:

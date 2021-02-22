@@ -38,11 +38,6 @@ public class Player : MonoBehaviour
     {
         ScoreText.text = "Score: " + score.ToString();
         HighScoreText.text = "HighScore: " + PlayerPrefs.GetInt("HighScore");
-
-        if (PlayerPrefs.GetInt("Music") == 1)
-            music.SetActive(true);
-        else
-            music.SetActive(false);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

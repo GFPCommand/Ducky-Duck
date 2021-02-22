@@ -1359,6 +1359,7 @@ MonoBehaviour:
   player: {fileID: 1735990746}
   shieldObj: {fileID: 2134650973}
   go: {fileID: 654204418}
+  music: {fileID: 1458248512}
   cc: {fileID: 1735990752}
   pc: {fileID: 1735990747}
   birds:

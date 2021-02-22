@@ -2,7 +2,7 @@
 
 public class InitializeGame : MonoBehaviour
 {
-    public GameObject HighScoreObj, HighScorePanelObj, HighScoreMenuText, player, shieldObj, go;
+    public GameObject HighScoreObj, HighScorePanelObj, HighScoreMenuText, player, shieldObj, go, music;
 
     public CircleCollider2D cc;
     public PolygonCollider2D pc;
@@ -60,6 +60,11 @@ public class InitializeGame : MonoBehaviour
                 player.GetComponent<SpriteRenderer>().sprite = birds[3];
                 break;
         }
+
+        if (PlayerPrefs.GetInt("Music") == 1)
+            music.SetActive(true);
+        else
+            music.SetActive(false);
     }
 
     private void Start()
