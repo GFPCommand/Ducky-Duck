@@ -8,4 +8,4 @@ Adult game will remind of childhood, when competed in the number of coins collec
 
 Children can also compete not only with each other, but also with adults who are faster.
 
-link to download: https://play.google.com/store/apps/details?id=com.EGCommand.DuckyDuck
+link to download: https://play.google.com/store/apps/details?id=com.GFPCommand.DuckyDuck
