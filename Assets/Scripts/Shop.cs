@@ -10,15 +10,17 @@ public class Shop : MonoBehaviour
     public static bool isShop;
 
     public Sprite[] productSprites;
-    public Text CountCoins, mainText;
+    public Image GetPresent;
+
+    public Text CountCoins, mainText, Count;
     public Text upText, downText, secondButtonText;
     public Text firstNum, secondNum;
 
+    public Button button, GetCoinsButton;
+
     public GameObject[] products;
 
-    public GameObject IAPStore, BoostersShop, PresentButton, noAds, SkinsShopObj, Plus;
-
-    public Button button, GetCoinsButton;
+    public GameObject IAPStore, BoostersShop, PresentButton, noAds, SkinsShopObj, Plus, PresentMenu, GetPresentMenu, OpenPresentMenuObj;
 
     public void FirstButton()
     {
@@ -172,49 +174,81 @@ public class Shop : MonoBehaviour
         else noAds.SetActive(true);
     }
 
+    public void OpenPresentMenu()
+    {
+        if (PlayerPrefs.GetInt("Present") > 0)
+        {
+            OpenPresentMenuObj.SetActive(true);
+            GetPresentMenu.SetActive(false);
+
+            PresentMenu.SetActive(true);
+        }
+    }
+
     public void OpenPresent()
     {
+        OpenPresentMenuObj.SetActive(false);
+        GetPresentMenu.SetActive(true);
+
         Presents = PlayerPrefs.GetInt("Present");
         coins = PlayerPrefs.GetInt("Coins");
 
-        if (Presents > 0)
+        PlayerPrefs.SetInt("Present", --Presents);
+        secondNum.text = "x" + Presents.ToString();
+
+        rand = Random.Range(1, 9);
+
+        switch (rand)
         {
-            PlayerPrefs.SetInt("Present", --Presents);
-            secondNum.text = "x" + Presents.ToString();
-
-            rand = Random.Range(1, 9);
-
-            switch (rand)
-            {
-                case 1:
-                    PlayerPrefs.SetInt("Shield", ++Shields);
-                    break;
-                case 2:
-                    PlayerPrefs.SetInt("ExtraLife", ++ExtraLifes);
-                    break;
-                case 3:
-                    PlayerPrefs.SetInt("DoubleCoin", ++DoubleCoins);
-                    firstNum.text = "x" + DoubleCoins.ToString();
-                    break;
-                case 4:
-                    PlayerPrefs.SetInt("Coins", coins += 20);
-                    CountCoins.text = coins.ToString();
-                    break;
-                case 5:
-                    PlayerPrefs.SetInt("Shield", Shields += 2);
-                    break;
-                case 6:
-                    PlayerPrefs.SetInt("ExtraLife", ExtraLifes += 2);
-                    break;
-                case 7:
-                    PlayerPrefs.SetInt("DoubleCoin", DoubleCoins += 2);
-                    firstNum.text = DoubleCoins.ToString();
-                    break;
-                case 8:
-                    PlayerPrefs.SetInt("Coins", coins += 70);
-                    CountCoins.text = coins.ToString();
-                    break;
-            }
+            case 1:
+                PlayerPrefs.SetInt("Shield", ++Shields);
+                GetPresent.sprite = productSprites[1];
+                Count.text = "x1";
+                break;
+            case 2:
+                PlayerPrefs.SetInt("ExtraLife", ++ExtraLifes);
+                GetPresent.sprite = productSprites[0];
+                Count.text = "x1";
+                break;
+            case 3:
+                PlayerPrefs.SetInt("DoubleCoin", ++DoubleCoins);
+                GetPresent.sprite = productSprites[2];
+                Count.text = "x1";
+                firstNum.text = "x" + DoubleCoins.ToString();
+                break;
+            case 4:
+                PlayerPrefs.SetInt("Coins", coins += 20);
+                GetPresent.sprite = productSprites[4];
+                Count.text = "x20";
+                CountCoins.text = coins.ToString();
+                break;
+            case 5:
+                PlayerPrefs.SetInt("Shield", Shields += 2);
+                GetPresent.sprite = productSprites[1];
+                Count.text = "x2";
+                break;
+            case 6:
+                PlayerPrefs.SetInt("ExtraLife", ExtraLifes += 2);
+                GetPresent.sprite = productSprites[0];
+                Count.text = "x2";
+                break;
+            case 7:
+                PlayerPrefs.SetInt("DoubleCoin", DoubleCoins += 2);
+                GetPresent.sprite = productSprites[2];
+                Count.text = "x2";
+                firstNum.text = DoubleCoins.ToString();
+                break;
+            case 8:
+                PlayerPrefs.SetInt("Coins", coins += 70);
+                GetPresent.sprite = productSprites[4];
+                Count.text = "x70";
+                CountCoins.text = coins.ToString();
+                break;
         }
+    }
+
+    public void ClosePresentMenu()
+    {
+        PresentMenu.SetActive(false);
     }
 }

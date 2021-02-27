@@ -55,28 +55,31 @@ class PlayerLVL : MonoBehaviour
             if (countDownDoubleCoins == 1 && InitializeGame.DoubleCoins > 0) PlayerPrefs.SetInt("DoubleCoin", --InitializeGame.DoubleCoins);
         } else if (collision.gameObject.CompareTag("Bomb") && InitializeGame.Shields >= 1)
         {
-            Destroy(collision.gameObject);
-
-            if (InitializeGame.isSound) StartCoroutine(ExplosionPlayerSound());
-
-            countHits++;
-
-            if (countHits == 2)
+            if (LoadLevels.isLevels)
             {
-                Debug.Log("Count of hits " + countHits.ToString());
+                Destroy(collision.gameObject);
 
-                countHits = 0;
-                PlayerPrefs.SetInt("Shield", --InitializeGame.Shields);
+                if (InitializeGame.isSound) StartCoroutine(ExplosionPlayerSound());
 
-                if (InitializeGame.Shields < 1)
+                countHits++;
+
+                if (countHits == 2)
                 {
-                    shieldLVLObj.SetActive(false);
+                    Debug.Log("Count of hits " + countHits.ToString());
 
-                    pc.GetComponent<PolygonCollider2D>().enabled = true;
-                    cc.GetComponent<CircleCollider2D>().enabled = false;
+                    countHits = 0;
+                    PlayerPrefs.SetInt("Shield", --InitializeGame.Shields);
+
+                    if (InitializeGame.Shields < 1)
+                    {
+                        shieldLVLObj.SetActive(false);
+
+                        pc.GetComponent<PolygonCollider2D>().enabled = true;
+                        cc.GetComponent<CircleCollider2D>().enabled = false;
+                    }
                 }
+                if (InitializeGame.DoubleCoins > 0) PlayerPrefs.SetInt("DoubleCoin", --InitializeGame.DoubleCoins);
             }
-            if (InitializeGame.DoubleCoins > 0) PlayerPrefs.SetInt("DoubleCoin", --InitializeGame.DoubleCoins);
         }
 
         if (collision.gameObject.CompareTag("Coin") && InitializeGame.DoubleCoins < 1 && !lose)

@@ -68,7 +68,7 @@ public class Player : MonoBehaviour
             }
         } else if (collision.gameObject.CompareTag("Bomb") && InitializeGame.ExtraLifes < 1 && InitializeGame.Shields >= 1)
         {
-            if (LoadLevels.isLevels)
+            if (!LoadLevels.isLevels)
             {
                 Destroy(collision.gameObject);
 

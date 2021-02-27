@@ -5,7 +5,7 @@ public class SpawnObjects : MonoBehaviour
 {
     public GameObject coin, bomb;
 
-    private float SpawnBombSpeed = 1f, SpawnCoinSpeed = 1f, delta;
+    private float SpawnSpeed = 1f, delta;
 
     private Vector2 RandBombX, RandCoinX, randVector;
 
@@ -66,7 +66,7 @@ public class SpawnObjects : MonoBehaviour
                 Instantiate(coin, RandCoinX, Quaternion.identity);
             }
 
-            yield return new WaitForSeconds(SpawnBombSpeed);
+            yield return new WaitForSeconds(SpawnSpeed);
         }
     }
 
@@ -112,12 +112,16 @@ public class SpawnObjects : MonoBehaviour
             {
                 Instantiate(bomb, RandBombX, Quaternion.identity);
 
+                new WaitForSeconds(1f);
+
                 Instantiate(coin, RandCoinX, Quaternion.identity);
             }
 
-            
+            SpawnSpeed -= PlayerPrefs.GetInt("selLVL") * 0.0005f;
 
-            yield return new WaitForSeconds(SpawnBombSpeed);
+            if (SpawnSpeed < 0.5f) SpawnSpeed = 0.5f;
+
+            yield return new WaitForSeconds(SpawnSpeed);
         }
     }
 }
