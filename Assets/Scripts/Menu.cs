@@ -28,7 +28,7 @@ public class Menu : MonoBehaviour
 
         if (Advertisement.isSupported)
         { 
-            Advertisement.Initialize("3861549", true);
+            Advertisement.Initialize("3861549", false);
             Debug.Log("Initializing...");
         }
         else Debug.Log("Platform is not supported");
